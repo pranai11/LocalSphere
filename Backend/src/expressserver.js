@@ -1,14 +1,13 @@
-require('dotenv').config();
-
-const express = require("express");
+const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const path = require('path');
+const fs = require('fs');
+const uri = "mongodb+srv://pranai3340:Dp_11022004@mydatabase1.ij12wdk.mongodb.net/?retryWrites=true&w=majority&appName=Mydatabase1"
+;
 
-const port = process.env.PORT || 8008;
-const uri = process.env.MONGODB_URI;
-
+const app = express();  // Initialize the app variable
 app.use(cors());
-app.use(express.json());
 
 // Create a MongoClient instance
 const client = new MongoClient(uri, {
@@ -118,6 +117,6 @@ app.get("/search-items", async (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(8008, () => {
+  console.log(`Server is running on port ${8008}`);
 });
