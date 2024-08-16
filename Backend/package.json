@@ -1,9 +1,9 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "expressserver.js",
+  "main": "src/expressserver.js",
   "scripts": {
-    "start": "node expressserver.js",
+    "start": "node src/expressserver.js",
     "build": "echo 'Nothing to build'"
   },
   "dependencies": {
