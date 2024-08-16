@@ -1,0 +1,90 @@
+.local{
+    background-image: url("https://img.freepik.com/free-vector/futuristic-background-design_23-2148503793.jpg");
+    background-size: 100% 100%;
+    padding-bottom: 300px;
+}
+.container-fluid{
+    width: 97% !important;
+}
+.test{
+    height: 50px;
+    width: fit-content;
+    margin-left: 100px;
+    
+}
+.searchbusi{
+    width: fit-content;
+    margin-top: 40px;
+    margin-right: auto;
+    margin-left: auto;
+    height: 36px;
+    border-radius: 5px;
+}
+.search1{
+    height:1.5em !important;
+    width: 1.5em !important;
+}
+.testimonal{
+    width: 300px;
+    height: 230px;
+    padding-left: 10px;
+    padding-right: 15px;
+    padding-top: 20px;
+    perspective: 100px;
+    animation: scroll 40s linear infinite;
+}
+.car{
+    height: 415px;
+    overflow: hidden;
+    display:inline-flex;
+    flex-direction: row;
+    color: white;
+}
+.item{
+    background-color: transparent;
+    height: 100px;
+    width: 100px;
+    margin-left: 50px;
+ 
+}
+@keyframes scroll{
+    0%{
+        transform: translateX(0);
+    }
+    100%{
+        transform: translateX(calc(-200px * 5));
+    }
+}
+.testimonal :hover{
+    transform: translateZ(10px);
+    animation-play-state: paused;
+}
+.item img{
+    width: fit-content;
+}
+.demo{
+    font-size: 70px;
+    font-weight: 700;
+    color: white;
+    border: 1px solid white;
+    border-radius: 15px;
+    width: 380px;
+    margin-left: 50px;
+    padding-right: 50px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+.demot{
+    height: 800px;
+padding-top: 100px;
+background-color: black;
+}
+.testi{
+    margin-top: 25px;
+    color: white;
+    font-size: 60px;
+    font-weight: 700;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}

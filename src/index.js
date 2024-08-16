@@ -1,9 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import './css/login.css';
+import './css/header.css';
+import './css/homepage.css';
+import './css/signup.css';
+import './css/footer.css';
+import './css/Indiitem.css';
+import './css/body.css';
+import './css/products.css';
+import 'bootstrap/dist/css/bootstrap.min.css'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

@@ -1,0 +1,86 @@
+.totalbody{
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScqU-nFa7P_5RcAnauwccmtQeAm90bXJGSNQ&s");
+    background-size: 100% 100%;
+    padding-bottom: 20px;
+}
+
+.body{
+    margin-top: 0px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.body h3{
+    color: white;
+}
+.col{
+    border: 1px solid white;
+    color: white;
+    margin: 10px;
+    height: 70px;
+    width: 280px;
+    border-radius: 7px;
+}
+.image{
+    width: 40px;
+    height: 40px;
+    margin: 11px;
+}
+.image1{
+    width: 30px;
+    height: 30px;
+    margin: 20px;
+}
+.matter{
+    color: white;
+    font-size: medium;
+    margin-top: 20px;
+}
+.matter1{
+    color: white;
+    font-size: small;
+    margin-right: 5px;
+    margin-top: 25px;
+}
+.matter2{
+    color: white;
+    font-size: small;
+    margin-right: 90px;
+    margin-top: 25px;
+}
+.matter3{
+    color: white ;
+    font-size: small;
+    margin-right: 70px;
+    margin-top: 25px;
+}
+.matter4{
+    color: white;
+    font-size: small;
+    margin-right: 80px;
+    margin-top: 25px;
+}
+.matter5{
+    color: white;
+    font-size: small;
+    margin-right: 60px;
+    margin-top: 25px;
+}
+.matter6{
+    color: white;
+    font-size: small;
+    margin-right: 50px;
+    margin-top: 25px;
+}
+.totalcard{
+    margin-left: 30px;
+    height: 390px;
+    perspective: 100px;
+}
+.button{
+    height: 35px;
+width: auto;
+}
+.trendimage{
+    width: 270px !important;
+    height: 170px !important;
+}
