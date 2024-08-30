@@ -1,6 +1,10 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const Signup = () => {
 
@@ -21,15 +25,15 @@ const Signup = () => {
     
     if(response){
       if(response.data.status==="success"){
-        alert("Successfull Signup")
-        window.location.replace("/")
+        toast.success("Successful Signup!");
+          setTimeout(() => {
+            window.location.replace("/");
+          }, 2000);
+        } else {
+          toast.error("Invalid details. Please try again.");
+        }
       }
-      else{
-        alert("invalid details")
-      }
-    }
-    
-  }
+  };
 
 
   return (
@@ -62,6 +66,11 @@ const Signup = () => {
         <label>Confirm your password</label>
       </div>
       <button onClick={()=>CreateAccount()} className='w-100'>Sign Up</button>
+
+      {/* ToastContainer to render the notifications */}
+      <ToastContainer />
+
+
       <div class="signupalready">
         <p>Already have an account? <Link to="/Login">Log In</Link></p>
       </div>

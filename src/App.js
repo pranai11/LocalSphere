@@ -24,8 +24,8 @@ function App() {
       <Route path="/Header" element={<Header/>} />
       <Route path="/Footer" element={<Footer/>} />
       <Route path="/Indiitem" element={<Indiitem/>}/>
-      <Route path="/Contenttext" element={<Contenttext/>} />
-      <Route path="/Products" element={<Products/>} />
+      <Route path="/Blogs" element={<Contenttext/>} />
+      <Route path="/About" element={<Products/>} />
       <Route path="/Blog" element={<Blog/>} />
       <Route path="/Post" element={<Post/>} />
       <Route path="/Contactus" element={<Contactus/>} />

@@ -3,6 +3,10 @@ import './css/blog.css';
 import { FaImage, FaVideo, FaFile, FaTable, FaPlus, FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const Blog = () => {
 
     const [bath,Setbath]=useState(null)
@@ -30,10 +34,12 @@ const Blog = () => {
       
       if(response){
         if(response.data.status==="success"){
-          window.location.replace("/Contenttext")
-        }
-        else{
-          alert("Error. Try again")
+         toast.success("Success! Redirecting...");
+          setTimeout(() => {
+            window.location.replace("/Blogs");
+          }, 2000); // Delay redirection to allow toast to show
+        } else {
+          toast.error("Error. Try again.");
         }
       }
       
@@ -41,22 +47,21 @@ const Blog = () => {
 
   return (
     <div>
-
-
-
     <div className="blogcontainer">
       <header className="blogheader">
         <div className="bloglogo">LocalSphere</div>
         <div className="blogheader-right">
           <div className="blogoptions">
-          <Link to="/"><button>Home</button></Link>
-            <Link to="/Contenttext"><button>Blogs</button></Link>
-            <button className="blogupgrade">Upgrade</button>
+          <Link to="/"><button className='text-black'>Home</button></Link>
+            <Link to="/Blogs"><button className='text-black'>Blogs</button></Link>
+            <button className="blogupgrade text-black">Upgrade</button>
           </div>
-            <button className='bg-secondary text-white p-2 pb-1 me-3' onClick={()=>{alert("Successfully published");CreateBlog()}}>Publish</button>
-          
+            <button className='bg-secondary text-white p-2 pb-1 me-3' onClick={()=>{CreateBlog()}}>Publish</button>
         </div>
+        
       </header>
+       {/* ToastContainer to render the notifications */}
+       <ToastContainer />
       <div className="blogbody">
         <aside className="blogsidebar">
           

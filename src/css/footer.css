@@ -1,4 +1,5 @@
 .foot{
+    background-image: url('../images/footerbg.png');
     width: 100%;
     color: white;
     font-weight: 700;
@@ -12,6 +13,9 @@
     background-color: transparent;
     border: 3px solid rgb(255, 255, 255);
     color: white;
+}
+.elogpop{
+    color: black;
 }
 .elogm :hover{
     color: black !important;

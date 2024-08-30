@@ -3,6 +3,7 @@ const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const path = require('path');
 const fs = require('fs');
+const bodyParser = require('body-parser');
 const uri = "mongodb+srv://pranai3340:Dp_11022004@mydatabase1.ij12wdk.mongodb.net/?retryWrites=true&w=majority&appName=Mydatabase1"
 ;
 
@@ -17,6 +18,14 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
+
+
+// Middleware to parse JSON data
+app.use(bodyParser.json());
+
+// Middleware to parse urlencoded data (from forms)
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // Middleware to connect MongoDB
 const connectToDatabase = async () => {
@@ -99,14 +108,17 @@ app.get("/Blogs", async (req, res) => {
   }
 });
 
-app.get("/search-items", async (req, res) => {
+app.get("/search-items-category", async (req, res) => {
   try {
     const database = client.db('LocalSphere');
     const keyword = req.query.keyword;
+    console.log(req.query.keyword);
     const result = await database.collection('search_items')
-      .find({ category: { $regex: keyword, $options: 'i' } })
+      .find({ category: { $regex: keyword, $options: 'i' }})
       .toArray();
+      console.log(result);
     if (result.length > 0) {
+      console.log(result)
       res.send({ status: "success", items: result });
     } else {
       res.send({ status: "error", message: "No items found" });
@@ -115,6 +127,53 @@ app.get("/search-items", async (req, res) => {
     res.status(500).send({ status: "error", message: error.message });
   }
 });
+
+
+app.get("/search-items-loc", async (req, res) => {
+  try {
+    const database = client.db('LocalSphere');
+    const keyword = req.query.keyword;
+    console.log(req.query.keyword);
+    const result = await database.collection('search_items')
+      .find({ location: { $regex: keyword, $options: 'i' }})
+      .toArray();
+      console.log(result);
+    if (result.length > 0) {
+      console.log(result)
+      res.send({ status: "success", items: result });
+    } else {
+      res.send({ status: "error", message: "No items found" });
+    }
+  } catch (error) {
+    res.status(500).send({ status: "error", message: error.message });
+  }
+});
+
+app.post("/register-business", async (req, res) => {
+  try {
+    const database = client.db('LocalSphere');
+    const businessData = req.body;
+
+    if (!businessData) {
+      return res.status(400).send({ status: "error", message: "No data provided" });
+    }
+
+    const result = await database.collection('Businesses').insertOne(businessData);
+
+    if (result.insertedId) {
+      res.send({ status: "success", data: result });
+    } else {
+      res.status(500).send({ status: "error", message: "Failed to register business" });
+    }
+  } catch (error) {
+    console.error("Error registering business:", error.message);
+    res.status(500).send({ status: "error", message: "Internal server error." });
+  }
+});
+
+
+
+
 
 // Start the server
 app.listen(8008, () => {

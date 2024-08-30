@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [email,Setemail]=useState(null)
@@ -15,20 +17,21 @@ const Login = () => {
     data.append("name",name)
 
 
-
     const response=await axios.get("http://localhost:8008/Login?name="+name+"&email="+email+"&password="+password,data)
     
     if(response){
       if(response.data.status==="success"){
         localStorage.setItem("userdata",JSON.stringify(response.data))
         localStorage.setItem("loginstatus",true)
-        alert("Successfull Login")
-        window.location.replace("/")
-      }
-      else{
-        alert("invalid details")
-      }
+        toast.success("Successful Login");
+      setTimeout(() => {
+        window.location.replace("/");
+      }, 2000); // Delay to allow toast to be visible
+    } else {
+      toast.error("Invalid details");
     }
+  }
+
     
   }
   return (
@@ -63,6 +66,8 @@ const Login = () => {
         <a href="#">Forgot password?</a>
       </div>
      <button className='w-100' onClick={()=>FindAccount()}>Log In</button>
+      {/* ToastContainer to render the notifications */}
+      <ToastContainer />
       <div class="register">
         <p>Don't have an account? <Link to="/Signup">Register</Link></p>
       </div>

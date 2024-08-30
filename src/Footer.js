@@ -4,18 +4,19 @@ import twitter from './images/twitter.png'
 import facebook from './images/facebook.png'
 import { Link } from 'react-router-dom'
 
+
 const Footer = () => {
 
-  const divStyle = {
+  // const divStyle = {
    
-    backgroundImage: 'url(./images/footerbg.png)',
-
-  };
+  //   backgroundImage: 'url(./images/footerbg.png)',
+  //style={divStyle}
+  // };
 
 
   return (
     <>
-    <div className='foot' style={divStyle}>
+    <div className='foot'>
       <div className='d-flex ms-5 pt-3'>
         <div className='d-block me-3'>
         <h2>Local Sphere</h2>
@@ -62,9 +63,9 @@ const Footer = () => {
           <br/>
           <h4>Choose Language</h4>
           <select className='elog'>
-            <option>English</option>
-            <option>Telugu</option>
-            <option>Hindi</option>
+            <option className='elogpop'>English</option>
+            <option className='elogpop'>Telugu</option>
+            <option className='elogpop'>Hindi</option>
           </select>
         </div>
         </div>

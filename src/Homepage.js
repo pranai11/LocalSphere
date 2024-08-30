@@ -31,12 +31,25 @@ const Homepage = () => {
   }
 
 
-  const Setsearchitem = async(keyword)=>{
+  const Setsearchitemcategry = async(keyword)=>{
     const data=new FormData()
     Setresult(null)
     data.append("keyword",keyword)
     if(keyword){
-      const response=await axios.get("http://localhost:8008/search-items/?keyword="+keyword,data)
+      const response=await axios.get("http://localhost:8008/search-items-category/?keyword="+keyword,data)
+      if(response.data.status==="success"){
+        Setresult(response.data.items)
+      }
+    }
+  }
+
+
+  const Setsearchitemloc = async(keyword)=>{
+    const data=new FormData()
+    Setresult(null)
+    data.append("keyword",keyword)
+    if(keyword){
+      const response=await axios.get("http://localhost:8008/search-items-loc/?keyword="+keyword,data)
       if(response.data.status==="success"){
         Setresult(response.data.items)
       }
@@ -107,9 +120,9 @@ const Homepage = () => {
         <p className='sname'>Discovering your Neighbourhood Gem's</p>
         <div class="searchbusi d-flex bg-light">
                 <Search className='search1'/>
-                <input placeholder="Search Business" class="border border-1 p-0" type="text" onChange={(event)=>{Setsearchitem(event.target.value)}}/>
+                <input placeholder="Search Business" class="border border-1 p-0" type="text" onChange={(event)=>{Setsearchitemcategry(event.target.value)}}/>
                
-                  <LocationCity className="search1"/><input placeholder="Enter Location" class=" border border-1 p-0" type="text"/><Search className='search1 bg-dark text-white'/>
+                  <LocationCity className="search1"/><input placeholder="Enter Location" class=" border border-1 p-0" type="text" onChange={(event)=>{Setsearchitemloc(event.target.value)}}/><Search className='search1 bg-dark text-white'/>
                 
             </div></div>
 
@@ -122,7 +135,7 @@ const Homepage = () => {
     <div className='d-block indiitemmatter'>
         <h3>{item.name}</h3>
         <Rating name="read-only" value={5} readOnly/>
-        <p><img alt="indiitemimg" src={location} className='me-2'/>318 Read way<br></br><span className='ms-4'></span>Monroe,USA</p>
+        <p><img alt="indiitemimg" src={location} className='me-2'/>318 Read way, {item.location}</p>
         <p><img alt="indiitemimg" src={phone} className='iimage1'/>+1 654 646 581</p>
         <p><img alt="indiitemimg" src={globe} className='iimage1'/>Visit Website</p>
     </div>

@@ -25,8 +25,8 @@ const Header = () => {
 
             
                 <Link to="/" className='text-decoration-none text-white'><p class="mt-2 ">Home</p></Link>
-                <Link to="/Products" className='text-decoration-none text-white'><p class="mt-2">About</p></Link>
-                <Link to="/Contenttext" className='text-decoration-none text-white'><p class="mt-2">Blog</p></Link>
+                <Link to="/About" className='text-decoration-none text-white'><p class="mt-2">About</p></Link>
+                <Link to="/Blogs" className='text-decoration-none text-white'><p class="mt-2">Blog</p></Link>
                 <Link to="/Contactus" className='text-decoration-none text-white'><p class="mt-2" >Contact</p></Link>
                 <div class="search d-flex h-75  mt-2 bg-light">
                 
