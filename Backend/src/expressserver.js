@@ -171,6 +171,27 @@ app.post("/register-business", async (req, res) => {
   }
 });
 
+app.post("/Contact_us", async (req, res) => {
+  try {
+    const database = client.db('LocalSphere');
+    const ContactData = req.body;
+
+    if (!ContactData) {
+      return res.status(400).send({ status: "error", message: "No data provided" });
+    }
+
+    const result = await database.collection('Contact_us').insertOne(ContactData);
+
+    if (result.insertedId) {
+      res.send({ status: "success", data: result });
+    } else {
+      res.status(500).send({ status: "error", message: "Failed to submit query" });
+    }
+  } catch (error) {
+    console.error("Error submitting query:", error.message);
+    res.status(500).send({ status: "error", message: "Internal server error." });
+  }
+});
 
 
 
