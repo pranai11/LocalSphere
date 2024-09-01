@@ -84,3 +84,55 @@ width: auto;
     width: 270px !important;
     height: 170px !important;
 }
+
+
+/* Custom Modal Background */
+.modal-backdrop.show {
+  opacity: 0.5; /* Make the background semi-transparent */
+}
+
+/* Modal Content Customization */
+.custom-modal .modal-content {
+  background-color: rgba(255, 255, 255, 0.95); /* Slight transparency */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal Header Styling */
+.custom-modal .modal-header {
+  border-bottom: none; /* Remove the default border */
+}
+
+.modal-title {
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Button Container Styling */
+.custom-modal .d-flex {
+  justify-content: space-evenly;
+  padding: 20px 0;
+}
+
+/* Button Styling */
+.custom-modal .btn {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.custom-modal .btn:hover {
+  transform: scale(1.1); /* Add a hover effect */
+}
+
+/* Optional: Icon Customization */
+.custom-modal .react-share__ShareButton svg {
+  transition: transform 0.3s ease;
+}
+
+.custom-modal .react-share__ShareButton:hover svg {
+  transform: scale(1.2);
+}

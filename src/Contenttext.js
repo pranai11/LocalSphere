@@ -538,7 +538,7 @@ function Contenttext() {
                     <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
 <Modal show={show} onHide={handleModalClose}>
   <Modal.Header closeButton>
-    <h2>Share via</h2>
+    <h2 className='text-black'>Share via</h2>
   </Modal.Header>
   <Modal.Body>
 <div className='d-flex'>

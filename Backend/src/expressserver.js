@@ -112,13 +112,11 @@ app.get("/search-items-category", async (req, res) => {
   try {
     const database = client.db('LocalSphere');
     const keyword = req.query.keyword;
-    console.log(req.query.keyword);
     const result = await database.collection('search_items')
       .find({ category: { $regex: keyword, $options: 'i' }})
       .toArray();
       console.log(result);
     if (result.length > 0) {
-      console.log(result)
       res.send({ status: "success", items: result });
     } else {
       res.send({ status: "error", message: "No items found" });
@@ -133,13 +131,11 @@ app.get("/search-items-loc", async (req, res) => {
   try {
     const database = client.db('LocalSphere');
     const keyword = req.query.keyword;
-    console.log(req.query.keyword);
     const result = await database.collection('search_items')
       .find({ location: { $regex: keyword, $options: 'i' }})
       .toArray();
       console.log(result);
     if (result.length > 0) {
-      console.log(result)
       res.send({ status: "success", items: result });
     } else {
       res.send({ status: "error", message: "No items found" });

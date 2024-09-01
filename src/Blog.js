@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './css/blog.css';
 import { FaImage, FaVideo, FaFile, FaTable, FaPlus, FaUserCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 const Blog = () => {
 
@@ -45,6 +44,19 @@ const Blog = () => {
       
     }
 
+    const imageInputRef = useRef(null);
+  const galleryInputRef = useRef(null);
+  const videoInputRef = useRef(null);
+  const gifInputRef = useRef(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      console.log("Selected file:", file);
+      // Handle the file upload logic here
+    }
+  };
+
   return (
     <div>
     <div className="blogcontainer">
@@ -62,19 +74,63 @@ const Blog = () => {
       </header>
        {/* ToastContainer to render the notifications */}
        <ToastContainer />
-      <div className="blogbody">
+      <div className="blogbody text-black">
         <aside className="blogsidebar">
           
           <div className="blogadd">
             <h3>Add</h3>
-            <div className="blogmedia">
-              <button><FaImage /> Image</button>
-              <button><FaImage /> Gallery</button>
-              <button><FaVideo /> Video</button>
-              <button><FaImage /> GIF</button>
+            <div className="blogmedia text-black">
+              {/* Image Upload */}
+      <input
+        type="file"
+        accept="image/*"
+        ref={imageInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
+      <button onClick={() => imageInputRef.current.click()}>
+        <FaImage /> Image
+      </button>
+
+      {/* Gallery Upload (Multiple Images) */}
+      <input
+        type="file"
+        accept="image/*"
+        ref={galleryInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+        multiple
+      />
+      <button onClick={() => galleryInputRef.current.click()}>
+        <FaImage /> Gallery
+      </button>
+
+      {/* Video Upload */}
+      <input
+        type="file"
+        accept="video/*"
+        ref={videoInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
+      <button onClick={() => videoInputRef.current.click()}>
+        <FaVideo /> Video
+      </button>
+
+      {/* GIF Upload */}
+      <input
+        type="file"
+        accept=".gif"
+        ref={gifInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
+      <button onClick={() => gifInputRef.current.click()}>
+        <FaImage /> GIF
+      </button>
               <Link to="https://pixabay.com" className='text-white text-decoration-none'><button ><FaFile/>File </button></Link>
             </div>
-            <div className="blogelements">
+            <div className="blogelements text-black">
               <button>Divider</button>
               <button>Button</button>
               <button><FaTable /> Table</button>
