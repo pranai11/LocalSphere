@@ -74,6 +74,9 @@ const Signup = () => {
       <div class="signupalready">
         <p>Already have an account? <Link to="/Login">Log In</Link></p>
       </div>
+      <div className="form-group">
+        <Link to="/" className="home-link">Go to Home</Link>
+      </div>
       <div >
         <span>
           <hr className='mediaacc'/>

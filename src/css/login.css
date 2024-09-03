@@ -132,7 +132,7 @@ button:hover {
 
 .register {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 10px !important;
   color: #fff;
 }
 .mediaacc{
@@ -142,4 +142,21 @@ button:hover {
   margin-top: 5px;
   padding-top: 5px;
   margin-bottom: 9px;
+}
+.home-link {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 20px;
+  background-color: #f8f9fa;
+  color: black !important;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.home-link:hover {
+  background-color: #007bff;
+  color: #ffffff !important;
+  text-decoration: none !important;
 }

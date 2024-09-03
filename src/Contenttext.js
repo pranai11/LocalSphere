@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Card from 'react-bootstrap/Card';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -36,7 +36,6 @@ import Footer from './Footer';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-
 function Contenttext() {
 
     const [show,setShow]=useState(false);
@@ -56,8 +55,14 @@ function Contenttext() {
       }
     }
 
-    useEffect(()=>{
 
+    const navigate = useNavigate();
+
+    const handleEdit = (blog) => {
+      navigate('/Blog', { state: { blog } });
+    };
+
+    useEffect(()=>{
       blogs()
     
     },[])
@@ -300,6 +305,8 @@ function Contenttext() {
         </div>
         <hr/>
         <div>
+        </div>
+        <div>
         <h2 className='ccdd ps-4'>Buy with Confidence</h2>
         <div className='d-flex'>
             <Container fluid>
@@ -307,7 +314,7 @@ function Contenttext() {
                     <Col className='trendscol'>
                     <img alt="contentimg" className='trendimage' src={trend8}/>
                     <b className='trendcol-bold'>Buy with Confidence</b>
-                    <h4 className='trendcol-h4'>Personal liability insurance: Coverage when you’re held responsible</h4>
+                    <h4 className='trendcol-h4'>Personal liability insurance: Coverage when you're held responsible</h4>
                     <p className='trendcol-p'>May 20, 2024</p>
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
@@ -506,14 +513,7 @@ function Contenttext() {
 
         </div>
 
-
-
-
-
-
-
-
-
+<hr/>
 
 
         <div>
@@ -521,19 +521,20 @@ function Contenttext() {
         <div className='d-flex'>
             <Container fluid>
                 <div className='d-flex flex-wrap'>
-                {blogitem?<>
-       
-       
-       {blogitem.map((bitem)=>(
-                    <div className='blogcol'>
-                    <div className='blogmat'>
-                    <img alt="contentimg" className='blogimg' src={bitem.images}/>
-                    <p className='trendcol-p'>{bitem.h1} | {bitem.h2}</p>
-                  <h4 className='trendcol-h4'>{bitem.h3}</h4>
-                    <p className='trendcol-p'>by {bitem.author} | {bitem.date}</p>
-                    <p className='fs-5 text-dark'>{bitem.matter}</p>
-                    <div className='d-flex'>
-                    <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>
+                {blogitem ? (
+    <>
+      {blogitem.map((bitem) => (
+        <div className='blogcol' key={bitem._id}>
+          <div className='blogmat'>
+            <img alt="contentimg" className='blogimg' src={bitem.images}/>
+            <p className='trendcol-p'>{bitem.h1} | {bitem.h2}</p>
+            <h4 className='trendcol-h4'>{bitem.h3}</h4>
+            <p className='trendcol-p'>by {bitem.author} | {bitem.date}</p>
+            <p className='fs-5 text-dark'>{bitem.matter}</p>
+            <div className='d-flex'>
+              <button onClick={() => handleEdit(bitem)} className="btn p-0 m-0">
+                <EditIcon className='me-3 mt-1 text-dark'/>
+              </button>
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
                     <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
 <Modal show={show} onHide={handleModalClose}>
@@ -548,14 +549,12 @@ function Contenttext() {
 </div>
   </Modal.Body>
   </Modal>
-                    </div>
-                    </div>
-                    </div>
-
-                    ))}
-
-       
-       </>:null}
+  </div>
+          </div>
+        </div>
+      ))}
+    </>
+  ) : null}
                 </div>
             </Container>
         </div>

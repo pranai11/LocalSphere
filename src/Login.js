@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+
+  const navigate = useNavigate();
+
+
   const [email,Setemail]=useState(null)
   const [password,Setpassword]=useState(null)
   const [name,Setname]=useState(null)
@@ -70,6 +74,9 @@ const Login = () => {
       <ToastContainer />
       <div class="register">
         <p>Don't have an account? <Link to="/Signup">Register</Link></p>
+      </div>
+      <div className="form-group">
+        <Link to="/" className="home-link">Go to Home</Link>
       </div>
       <div >
         <span>

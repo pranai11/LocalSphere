@@ -1,50 +1,85 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './css/blog.css';
-import { FaImage, FaVideo, FaFile, FaTable, FaPlus, FaUserCircle } from 'react-icons/fa';
+import { FaImage, FaVideo, FaFile, FaTable } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Blog = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  const [blogId, setBlogId] = useState(null);
 
-    const [bath,Setbath]=useState(null)
-    const [categ,Setcateg]=useState(null)
-    const [scateg,Setscateg]=useState(null)
-    const [btitle,Setbtitle]=useState(null)
-    const [bdate,Setbdate]=useState(null)
-    const [bmat,Setbmat]=useState(null)
-    const [bimglink,Setbimglink]=useState(null)
+  const [bath, setBath] = useState('');
+  const [categ, setCateg] = useState('');
+  const [scateg, setScateg] = useState('');
+  const [btitle, setBtitle] = useState('');
+  const [bdate, setBdate] = useState('');
+  const [bmat, setBmat] = useState('');
+  const [bimglink, setBimglink] = useState('');
 
-
-    const CreateBlog = async()=>{
-      const data=new FormData()
-      data.append("images",bimglink)
-      data.append("h1",categ)
-      data.append("h2",scateg)
-      data.append("h3",btitle)
-      data.append("author",bath)
-      data.append("date",bdate)
-      data.append("matter",bmat)
-
-  
-  
-      const response=await axios.get("http://localhost:8008/Blogs?images="+bimglink+"&h1="+categ+"&h2="+scateg+"&h3="+btitle+"&author="+bath+"&date="+bdate+"&matter="+bmat,data)
-      
-      if(response){
-        if(response.data.status==="success"){
-         toast.success("Success! Redirecting...");
-          setTimeout(() => {
-            window.location.replace("/Blogs");
-          }, 2000); // Delay redirection to allow toast to show
-        } else {
-          toast.error("Error. Try again.");
-        }
-      }
-      
+  useEffect(() => {
+    if (location.state && location.state.blog) {
+      const blog = location.state.blog;
+      setIsEditing(true);
+      setBlogId(blog._id);
+      setBath(blog.author || '');
+      setCateg(blog.h1 || '');
+      setScateg(blog.h2 || '');
+      setBtitle(blog.h3 || '');
+      setBdate(blog.date || '');
+      setBmat(blog.matter || '');
+      setBimglink(blog.images || '');
     }
+  }, [location]);
 
-    const imageInputRef = useRef(null);
+  const handleSubmit = async () => {
+    const data = {
+      images: bimglink,
+      h1: categ,
+      h2: scateg,
+      h3: btitle,
+      author: bath,
+      date: bdate,
+      matter: bmat,
+    };
+
+    try {
+      let response;
+      if (isEditing) {
+        response = await axios.put(`http://localhost:8008/Blogs/${blogId}`, data);
+      } else {
+        response = await axios.post("http://localhost:8008/Blogs", data);
+      }
+
+      if (response.data.status === "success") {
+        toast.success(isEditing ? "Blog updated successfully!" : "New blog created successfully!");
+        setTimeout(() => {
+          navigate("/Blogs");
+        }, 2000);
+      } else {
+        toast.error(response.data.message || "Error. Try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting blog:", error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        toast.error(`Error: ${error.response.data.message || "An unexpected error occurred"}`);
+      } else if (error.request) {
+        // The request was made but no response was received
+        toast.error("No response received from server. Please try again.");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        toast.error("Error setting up the request. Please try again.");
+      }
+    }
+  };
+
+  const imageInputRef = useRef(null);
   const galleryInputRef = useRef(null);
   const videoInputRef = useRef(null);
   const gifInputRef = useRef(null);
@@ -59,102 +94,143 @@ const Blog = () => {
 
   return (
     <div>
-    <div className="blogcontainer">
-      <header className="blogheader">
-        <div className="bloglogo">LocalSphere</div>
-        <div className="blogheader-right">
-          <div className="blogoptions">
-          <Link to="/"><button className='text-black'>Home</button></Link>
-            <Link to="/Blogs"><button className='text-black'>Blogs</button></Link>
-            <button className="blogupgrade text-black">Upgrade</button>
+      <div className="blogcontainer">
+        <header className="blogheader">
+          <div className="bloglogo">LocalSphere</div>
+          <div className="blogheader-right">
+            <div className="blogoptions">
+              <Link to="/"><button className='text-black'>Home</button></Link>
+              <Link to="/Blogs"><button className='text-black'>Blogs</button></Link>
+              <button className="blogupgrade text-black">Upgrade</button>
+            </div>
+            <button className='bg-secondary text-white p-2 pb-1 me-3' onClick={handleSubmit}>
+              {isEditing ? 'Update' : 'Publish'}
+            </button>
           </div>
-            <button className='bg-secondary text-white p-2 pb-1 me-3' onClick={()=>{CreateBlog()}}>Publish</button>
+        </header>
+        <ToastContainer />
+        <div className="blogbody text-black">
+          <aside className="blogsidebar">
+            <div className="blogadd">
+              <h3>Add</h3>
+              <div className="blogmedia text-black">
+                {/* Image Upload */}
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={imageInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                />
+                <button onClick={() => imageInputRef.current.click()}>
+                  <FaImage /> Image
+                </button>
+
+                {/* Gallery Upload (Multiple Images) */}
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={galleryInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                  multiple
+                />
+                <button onClick={() => galleryInputRef.current.click()}>
+                  <FaImage /> Gallery
+                </button>
+
+                {/* Video Upload */}
+                <input
+                  type="file"
+                  accept="video/*"
+                  ref={videoInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                />
+                <button onClick={() => videoInputRef.current.click()}>
+                  <FaVideo /> Video
+                </button>
+
+                {/* GIF Upload */}
+                <input
+                  type="file"
+                  accept=".gif"
+                  ref={gifInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                />
+                <button onClick={() => gifInputRef.current.click()}>
+                  <FaImage /> GIF
+                </button>
+                <Link to="https://pixabay.com" className='text-white text-decoration-none'><button ><FaFile/>File </button></Link>
+              </div>
+              <div className="blogelements text-black">
+                <button>Divider</button>
+                <button>Button</button>
+                <button><FaTable /> Table</button>
+                <button>Expandable List</button>
+                <button>Poll</button>
+              </div>
+            </div>
+          </aside>
+          <main className="blogcontent">
+            <div className='d-flex flex-wrap'>
+              <input
+                placeholder="Author Name"
+                className='m-2 ms-0'
+                value={bath}
+                onChange={(event) => setBath(event.target.value)}
+                required
+              />
+              <input
+                placeholder='Category'
+                className='m-2'
+                value={categ}
+                onChange={(event) => setCateg(event.target.value)}
+                required
+              />
+              <input
+                placeholder='Sub-Category'
+                className='m-2'
+                value={scateg}
+                onChange={(event) => setScateg(event.target.value)}
+                required
+              />
+              <input
+                placeholder="Title"
+                className='m-2'
+                value={btitle}
+                onChange={(event) => setBtitle(event.target.value)}
+                required
+              />
+              <input
+                placeholder="Date(Month DD, YYYY)"
+                className='m-2'
+                value={bdate}
+                onChange={(event) => setBdate(event.target.value)}
+                required
+              />
+              <input
+                placeholder="Image Link"
+                className='m-2 ms-0'
+                value={bimglink}
+                onChange={(event) => setBimglink(event.target.value)}
+                required
+              />
+            </div>
+            <textarea
+              rows="20"
+              cols="150"
+              placeholder='Enter Blog Description'
+              value={bmat}
+              onChange={(event) => setBmat(event.target.value)}
+              required
+            />
+          </main>
         </div>
-        
-      </header>
-       {/* ToastContainer to render the notifications */}
-       <ToastContainer />
-      <div className="blogbody text-black">
-        <aside className="blogsidebar">
-          
-          <div className="blogadd">
-            <h3>Add</h3>
-            <div className="blogmedia text-black">
-              {/* Image Upload */}
-      <input
-        type="file"
-        accept="image/*"
-        ref={imageInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-      />
-      <button onClick={() => imageInputRef.current.click()}>
-        <FaImage /> Image
-      </button>
-
-      {/* Gallery Upload (Multiple Images) */}
-      <input
-        type="file"
-        accept="image/*"
-        ref={galleryInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-        multiple
-      />
-      <button onClick={() => galleryInputRef.current.click()}>
-        <FaImage /> Gallery
-      </button>
-
-      {/* Video Upload */}
-      <input
-        type="file"
-        accept="video/*"
-        ref={videoInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-      />
-      <button onClick={() => videoInputRef.current.click()}>
-        <FaVideo /> Video
-      </button>
-
-      {/* GIF Upload */}
-      <input
-        type="file"
-        accept=".gif"
-        ref={gifInputRef}
-        style={{ display: 'none' }}
-        onChange={handleFileChange}
-      />
-      <button onClick={() => gifInputRef.current.click()}>
-        <FaImage /> GIF
-      </button>
-              <Link to="https://pixabay.com" className='text-white text-decoration-none'><button ><FaFile/>File </button></Link>
-            </div>
-            <div className="blogelements text-black">
-              <button>Divider</button>
-              <button>Button</button>
-              <button><FaTable /> Table</button>
-              <button>Expandable List</button>
-              <button>Poll</button>
-            </div>
-          </div>
-        </aside>
-        <main  className="blogcontent">
-          <div className='d-flex flex-wrap'>
-            <input placeholder="Author Name" className='m-2 ms-0' onChange={(event)=>Setbath(event.target.value)} required></input>
-            <input placeholder='Category' className='m-2' onChange={(event)=>Setcateg(event.target.value)} required></input>
-            <input placeholder='Sub-Category' className='m-2' onChange={(event)=>Setscateg(event.target.value)} required></input>
-            <input placeholder="Title" className='m-2' onChange={(event)=>Setbtitle(event.target.value)} required></input>
-            
-            <input placeholder="Date(Month DD, YYYY)" className='m-2' onChange={(event)=>Setbdate(event.target.value)} required></input>
-            <input placeholder="Image Link" className='m-2 ms-0' onChange={(event)=>Setbimglink(event.target.value)} required></input>
-          </div>
-          <textarea rows="20" cols="150" placeholder='Enter Blog Description' onChange={(event)=>Setbmat(event.target.value)} required />
-        </main>
       </div>
-</div>
     </div>
-  )
+  );
 }
 
-export default Blog
+export default Blog;
