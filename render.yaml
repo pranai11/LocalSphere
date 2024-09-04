@@ -1,9 +1,18 @@
 services:
   - type: web
-    name: your-project-name
+    name: localsphere-frontend
+    env: static
+    buildCommand: cd .. && npm ci && npm run build
+    staticPublishPath: ../build
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  - type: web
+    name: localsphere-backend
     env: node
-    buildCommand: npm ci && npm run build
-    startCommand: npm run start
+    buildCommand: cd Backend && npm ci
+    startCommand: cd Backend && npm start
     envVars:
       - key: NODE_ENV
         value: production
