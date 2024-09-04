@@ -7,6 +7,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: REACT_APP_API_URL
+        value: https://your-backend-url.onrender.com
 
   - type: web
     name: localsphere-backend
@@ -16,3 +18,11 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: MONGODB_URI
+        value: mongodb+srv://pranai3340:Dp_11022004@mydatabase1.ij12wdk.mongodb.net/?retryWrites=true&w=majority&appName=Mydatabase1
+      - key: GOOGLE_CLIENT_ID
+        value: 178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com
+      - key: PORT
+        value: 8008
+      - key: FRONTEND_URL
+        value: https://your-frontend-url.netlify.app

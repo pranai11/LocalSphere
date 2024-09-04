@@ -4,13 +4,15 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-const uri = "mongodb+srv://pranai3340:Dp_11022004@mydatabase1.ij12wdk.mongodb.net/?retryWrites=true&w=majority&appName=Mydatabase1"
-;
-const { ObjectId } = require('mongodb');
-const { OAuth2Client } = require('google-auth-library');
-const gclient = new OAuth2Client("178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com");
+require('dotenv').config();
+
+const uri = process.env.MONGODB_URI;
+const gclient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 const app = express();  // Initialize the app variable
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000'
+}));
 
 // Create a MongoClient instance
 const client = new MongoClient(uri, {
@@ -276,10 +278,8 @@ app.post("/Contact_us", async (req, res) => {
   }
 });
 
-
-
-
 // Start the server
-app.listen(8008, () => {
-  console.log(`Server is running on port ${8008}`);
+const PORT = process.env.PORT || 8008;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
