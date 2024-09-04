@@ -10,7 +10,7 @@ const uri = process.env.MONGODB_URI;
 
 const app = express();  // Initialize the app variable
 const corsOptions = {
-  origin: [process.env.FRONTEND_URL, 'https://localsphere.netlify.app'],
+  origin: ['https://localsphere.netlify.app', 'http://localhost:3000'],
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -121,9 +121,9 @@ app.get("/business-trends", async (req, res) => {
   try {
     const database = client.db('LocalSphere');
     const result = await database.collection('Trending_Businesses').find({}).toArray();
-    res.send({ status: "success", business_trends: result });
+    res.json({ status: "success", business_trends: result });
   } catch (error) {
-    res.status(500).send({ status: "error", message: error.message });
+    res.status(500).json({ status: "error", message: error.message });
   }
 });
 
@@ -282,13 +282,18 @@ app.post("/Contact_us", async (req, res) => {
 });
 
 // Temporary CORS bypass for testing
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   next();
+// });
 
 // Start the server
 const PORT = process.env.PORT || 8008;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+app.use((req, res, next) => {
+  console.log(`Received request: ${req.method} ${req.path}`);
+  next();
 });
