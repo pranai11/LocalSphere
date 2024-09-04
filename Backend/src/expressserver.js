@@ -7,12 +7,15 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const uri = process.env.MONGODB_URI;
-const gclient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const app = express();  // Initialize the app variable
-app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000'
-}));
+const corsOptions = {
+  origin: [process.env.FRONTEND_URL, 'https://localsphere.netlify.app'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 // Create a MongoClient instance
 const client = new MongoClient(uri, {
@@ -276,6 +279,12 @@ app.post("/Contact_us", async (req, res) => {
     console.error("Error submitting query:", error.message);
     res.status(500).send({ status: "error", message: "Internal server error." });
   }
+});
+
+// Temporary CORS bypass for testing
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
 });
 
 // Start the server
