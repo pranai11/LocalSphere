@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
@@ -176,9 +176,8 @@ app.put("/Blogs/:id", async (req, res) => {
     const database = client.db('LocalSphere');
     const { id } = req.params;
     
-    // Ensure id is a valid ObjectId
     if (!ObjectId.isValid(id)) {
-      return res.status(400).send({ status: "error", message: "Invalid blog ID" });
+      return res.status(400).json({ status: "error", message: "Invalid blog ID" });
     }
 
     const result = await database.collection('Blogs').updateOne(
@@ -187,17 +186,15 @@ app.put("/Blogs/:id", async (req, res) => {
     );
 
     if (result.matchedCount === 0) {
-      return res.status(404).send({ status: "error", message: "Blog not found" });
+      return res.status(404).json({ status: "error", message: "Blog not found" });
     }
 
-    if (result.modifiedCount === 1) {
-      res.send({ status: "success", message: "Blog updated successfully" });
-    } else {
-      res.send({ status: "success", message: "No changes made to the blog" });
-    }
+    res.json({ status: "success", message: "Blog updated successfully" });
   } catch (error) {
     console.error("Error updating blog:", error);
-    res.status(500).send({ status: "error", message: "Internal server error", error: error.message });
+    console.error("Request body:", req.body);
+    console.error("Request params:", req.params);
+    res.status(500).json({ status: "error", message: "Internal server error", error: error.message });
   }
 });
 app.get("/search-items-category", async (req, res) => {
@@ -281,11 +278,11 @@ app.post("/Contact_us", async (req, res) => {
   }
 });
 
-// Temporary CORS bypass for testing
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   next();
-// });
+//Temporary CORS bypass for testing
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 
 // Start the server
 const PORT = process.env.PORT || 8008;
