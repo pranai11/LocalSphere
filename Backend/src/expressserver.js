@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ObjectId } = require('mongodb');
+const { MongoClient, ObjectId, ServerApiVersion } = require('mongodb');
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
@@ -18,6 +18,12 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+
+// Add this line to log all incoming requests
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
+});
 
 // Create a MongoClient instance
 const client = new MongoClient(uri, {
@@ -50,8 +56,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const connectToDatabase = async () => {
   try {
     await client.connect();
-    await client.db("admin").command({ ping: 1 });
     console.log("Connected to MongoDB");
+    const database = client.db('LocalSphere');
+    const collection = database.collection('Categories');
+    const count = await collection.countDocuments();
+    console.log(`Number of documents in Categories collection: ${count}`);
   } catch (error) {
     console.error("Failed to connect to MongoDB:", error);
     throw error;  // Rethrow the error to crash the app if DB connection fails
