@@ -10,7 +10,7 @@ const uri = process.env.MONGODB_URI;
 
 const app = express();  // Initialize the app variable
 const corsOptions = {
-  origin: '*',  // Allow all origins for now
+  origin: ['https://localsphere.netlify.app', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
