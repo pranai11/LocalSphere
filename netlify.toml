@@ -1,7 +1,6 @@
 [build]
   command = "npm run build"
   publish = "build"
-  environment = { NODE_VERSION = "22.2.0" }
 
 [context.production.environment]
   NODE_ENV = "production"
