@@ -10,7 +10,9 @@ const uri = process.env.MONGODB_URI;
 
 const app = express();  // Initialize the app variable
 const corsOptions = {
-  origin: ['https://localsphere.netlify.app', 'http://localhost:3000'],
+  origin: '*',  // Allow all origins for now
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -52,6 +54,7 @@ const connectToDatabase = async () => {
     console.log("Connected to MongoDB");
   } catch (error) {
     console.error("Failed to connect to MongoDB:", error);
+    throw error;  // Rethrow the error to crash the app if DB connection fails
   }
 };
 
@@ -279,14 +282,14 @@ app.post("/Contact_us", async (req, res) => {
 });
 
 //Temporary CORS bypass for testing
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   next();
+// });
 
 // Start the server
 const PORT = process.env.PORT || 8008;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
