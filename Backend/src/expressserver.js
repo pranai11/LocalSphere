@@ -7,7 +7,8 @@ const bodyParser = require('body-parser');
 const uri = "mongodb+srv://pranai3340:Dp_11022004@mydatabase1.ij12wdk.mongodb.net/?retryWrites=true&w=majority&appName=Mydatabase1"
 ;
 const { ObjectId } = require('mongodb');
-
+const { OAuth2Client } = require('google-auth-library');
+const gclient = new OAuth2Client("178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com");
 const app = express();  // Initialize the app variable
 app.use(cors());
 
@@ -19,6 +20,16 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
+
+// Add this function to verify Google tokens
+async function verifyGoogleToken(token) {
+  const ticket = await gclient.verifyIdToken({
+    idToken: token,
+    audience: "178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com",
+  });
+  const payload = ticket.getPayload();
+  return payload;
+}
 
 
 // Middleware to parse JSON data
@@ -55,6 +66,41 @@ app.get("/Login", async (req, res) => {
     res.status(500).send({ status: "error", message: error.message });
   }
 });
+
+app.post("/google-signin", async (req, res) => {
+  try {
+    const { token } = req.body;
+    console.log("Received token:", token);
+
+    const ticket = await gclient.verifyIdToken({
+      idToken: token,
+      audience: "178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com",
+    });
+    const payload = ticket.getPayload();
+    console.log("Token payload:", payload);
+
+    const database = client.db('LocalSphere');
+    let user = await database.collection('users').findOne({ email: payload.email });
+    
+    if (!user) {
+      user = {
+        name: payload.name,
+        email: payload.email,
+        googleId: payload.sub,
+      };
+      await database.collection('users').insertOne(user);
+      console.log("New user created:", user);
+    } else {
+      console.log("Existing user found:", user);
+    }
+    
+    res.send({ status: "success", data: user });
+  } catch (error) {
+    console.error("Error in Google Sign-In:", error);
+    res.status(500).send({ status: "error", message: "Authentication failed", error: error.message });
+  }
+});
+
 
 app.get("/Signup", async (req, res) => {
   try {

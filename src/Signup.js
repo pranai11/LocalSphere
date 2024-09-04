@@ -1,6 +1,6 @@
-import axios from 'axios'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,7 +11,29 @@ const Signup = () => {
   const [email,Setemail]=useState(null)
   const [password,Setpassword]=useState(null)
   const [name,Setname]=useState(null)
-  
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const initializeGoogleSignIn = () => {
+      if (window.google && window.google.accounts && window.google.accounts.id) {
+        window.google.accounts.id.initialize({
+          client_id: "178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com",
+          callback: handleGoogleSignIn,
+          auto_select: false,
+        });
+        window.google.accounts.id.renderButton(
+          document.getElementById("googleSignInButton"),
+          { theme: "outline", size: "large", text: "signup_with" }
+        );
+      } else {
+        console.error("Google Sign-In API not loaded");
+        setTimeout(initializeGoogleSignIn, 100); // Retry after 100ms
+      }
+    };
+
+    initializeGoogleSignIn();
+  }, []);
 
   const CreateAccount = async()=>{
     const data=new FormData()
@@ -35,6 +57,28 @@ const Signup = () => {
       }
   };
 
+  const handleGoogleSignIn = async (response) => {
+    console.log("Google Sign-In response:", response);
+    try {
+      const res = await axios.post("http://localhost:8008/google-signin", {
+        token: response.credential
+      });
+      console.log("Server response:", res.data);
+      if (res.data.status === "success") {
+        toast.success("Successful Google Sign-In!");
+        localStorage.setItem("userdata", JSON.stringify(res.data.data));
+        localStorage.setItem("loginstatus", true);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } else {
+        toast.error("Google Sign-In failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error during Google Sign-In:", error);
+      toast.error("An error occurred. Please try again.");
+    }
+  };
 
   return (
     <div>
@@ -65,9 +109,8 @@ const Signup = () => {
         <input type="password" required/>
         <label>Confirm your password</label>
       </div>
-      <button onClick={()=>CreateAccount()} className='w-100'>Sign Up</button>
-
-      {/* ToastContainer to render the notifications */}
+      <button onClick={() => CreateAccount()} className='w-100'>Sign Up</button>
+      <div id="googleSignInButton" style={{width:"100%",height:"40px",marginBottom:"10px",marginTop:"10px"}}></div>
       <ToastContainer />
 
 
