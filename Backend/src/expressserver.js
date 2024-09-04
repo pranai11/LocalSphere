@@ -10,7 +10,7 @@ const uri = process.env.MONGODB_URI;
 
 const app = express();  // Initialize the app variable
 const corsOptions = {
-  origin: ['https://localsphere.netlify.app', 'http://localhost:3000'],
+  origin: '*',  // Allow all origins for now
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -58,12 +58,11 @@ const connectToDatabase = async () => {
     await client.connect();
     console.log("Connected to MongoDB");
     const database = client.db('LocalSphere');
-    const collection = database.collection('Categories');
-    const count = await collection.countDocuments();
-    console.log(`Number of documents in Categories collection: ${count}`);
+    const collections = await database.listCollections().toArray();
+    console.log("Available collections:", collections.map(c => c.name));
   } catch (error) {
     console.error("Failed to connect to MongoDB:", error);
-    throw error;  // Rethrow the error to crash the app if DB connection fails
+    throw error;
   }
 };
 
@@ -135,6 +134,7 @@ app.get("/business-trends", async (req, res) => {
     const result = await database.collection('Trending_Businesses').find({}).toArray();
     res.json({ status: "success", business_trends: result });
   } catch (error) {
+    console.error("Error fetching business trends:", error);
     res.status(500).json({ status: "error", message: error.message });
   }
 });
