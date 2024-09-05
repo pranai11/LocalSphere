@@ -10,7 +10,7 @@ const uri = process.env.MONGODB_URI;
 
 const app = express();  // Initialize the app variable
 const corsOptions = {
-  origin: '*',  // Allow all origins for now
+  origin: process.env.FRONTEND_URL || 'https://localsphere.netlify.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -289,12 +289,6 @@ app.post("/Contact_us", async (req, res) => {
     res.status(500).send({ status: "error", message: "Internal server error." });
   }
 });
-
-//Temporary CORS bypass for testing
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*');
-//   next();
-// });
 
 // Start the server
 const PORT = process.env.PORT || 8008;
