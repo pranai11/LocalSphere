@@ -3,6 +3,7 @@ import Header from './Header';
 import Footer from './Footer';
 import man from './images/man.png';
 import Rating from '@mui/material/Rating';
+import Business from '@mui/icons-material/Business';
 import { Col, Container, Row } from 'react-bootstrap';
 import Body from './Body';
 import { LocationCity, Search } from '@mui/icons-material';
@@ -15,52 +16,82 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 const Homepage = () => {
   const countersRef = useRef([]);
-  const [testi,Settesti]=useState(null)
-  const [result,Setresult]=useState(null)
+  const [testi, Settesti] = useState(null);
+  const [result, Setresult] = useState(null);
+  const [searchError, setSearchError] = useState(null);
+  const [category, setCategory] = useState('');
+  const [location, setLocation] = useState('');
 
-  const testimonal = async ()=>{
+  const performSearch = async () => {
+    Setresult(null);
+    setSearchError(null);
+
+    if (!category && !location) {
+      setSearchError("Please enter a category or location to search.");
+      return;
+    }
+
+    try {
+      let url = "http://localhost:8008/search-items";
+      if (category && location) {
+        url += `?category=${category}&location=${location}`;
+      } else if (category) {
+        url += `?category=${category}`;
+      } else if (location) {
+        url += `?location=${location}`;
+      }
+
+      const response = await axios.get(url);
+      if (response.data.status === "success") {
+        Setresult(response.data.items);
+      } else {
+        setSearchError("No items found matching your search criteria.");
+      }
+    } catch (error) {
+      console.error("Error performing search:", error);
+      setSearchError("An error occurred while searching. Please try again.");
+    }
+  };
+
+  const testimonal = async () => {
 
     const testidata = new FormData()
-    const testiresponse = await axios.get("http://localhost:8008/Reviews",testidata)
-    if(testiresponse){
+    const testiresponse = await axios.get("http://localhost:8008/Reviews", testidata)
+    if (testiresponse) {
       console.log(testiresponse.data)
-      if(testiresponse.data.status==="success"){
+      if (testiresponse.data.status === "success") {
         Settesti(testiresponse.data.Reviews)
       }
     }
-  }
+  };
 
-
-  const Setsearchitemcategry = async(keyword)=>{
-    const data=new FormData()
+  const Setsearchitemcategry = async (keyword) => {
+    const data = new FormData()
     Setresult(null)
-    data.append("keyword",keyword)
-    if(keyword){
-      const response=await axios.get("http://localhost:8008/search-items-category/?keyword="+keyword,data)
-      if(response.data.status==="success"){
+    data.append("keyword", keyword)
+    if (keyword) {
+      const response = await axios.get("http://localhost:8008/search-items-category/?keyword=" + keyword, data)
+      if (response.data.status === "success") {
         Setresult(response.data.items)
       }
     }
-  }
+  };
 
-
-  const Setsearchitemloc = async(keyword)=>{
-    const data=new FormData()
+  const Setsearchitemloc = async (keyword) => {
+    const data = new FormData()
     Setresult(null)
-    data.append("keyword",keyword)
-    if(keyword){
-      const response=await axios.get("http://localhost:8008/search-items-loc/?keyword="+keyword,data)
-      if(response.data.status==="success"){
+    data.append("keyword", keyword)
+    if (keyword) {
+      const response = await axios.get("http://localhost:8008/search-items-loc/?keyword=" + keyword, data)
+      if (response.data.status === "success") {
         Setresult(response.data.items)
       }
     }
-  }
-
+  };
 
   useEffect(() => {
 
     testimonal()
-
 
     const counters = countersRef.current;
     const speed = 200; // Adjust this value to control the speed of the counter animation
@@ -119,41 +150,68 @@ const Homepage = () => {
         <h2 className='name'>LOCAL SPHERE</h2>
         <p className='sname'>Discovering your Neighbourhood Gem's</p>
         <div class="searchbusi d-flex bg-light">
-                <Search className='search1'/>
-                <input placeholder="Search Business" class="border border-1 p-0" type="text" onChange={(event)=>{Setsearchitemcategry(event.target.value)}}/>
+                <Business className='search1'/>
+                <input 
+                  placeholder="Search Business" 
+                  className="border border-1 p-0" 
+                  type="text" 
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                />
                
-                  <LocationCity className="search1"/><input placeholder="Enter Location" class=" border border-1 p-0" type="text" onChange={(event)=>{Setsearchitemloc(event.target.value)}}/><Search className='search1 bg-dark text-white'/>
+                  <LocationCity className="search1"/><input 
+                    placeholder="Enter Location" 
+                    className=" border border-1 p-0" 
+                    type="text" 
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                  />
+                  <Search onClick={performSearch} className='search1 bg-dark text-white' style={{ cursor: 'pointer' }} />
                 
             </div></div>
 
-{result?
-<div className='totalbody pt-5'>
+        {searchError && (
+          <div className="search-error-popup">
+            <p>{searchError}</p>
+            <button onClick={() => setSearchError(null)}>Close</button>
+          </div>
+        )}
 
-{result.map((item)=>(    <div className='d-block indiitem1'>
-    <div className='color-black d-flex'>
-    <img alt="indiitemimg" className="eeitemnadi" src={item.images}></img>
-    <div className='d-block indiitemmatter'>
-        <h3>{item.name}</h3>
-        <Rating name="read-only" value={5} readOnly/>
-        <p><img alt="indiitemimg" src={location} className='me-2'/>318 Read way, {item.location}</p>
-        <p><img alt="indiitemimg" src={phone} className='iimage1'/>+1 654 646 581</p>
-        <p><img alt="indiitemimg" src={globe} className='iimage1'/>Visit Website</p>
-    </div>
-    <div className='indirp'><button className='lcv'><CheckCircleIcon/>LS Verified</button>
-    <div className='mt-2 '><h5>{item.category}</h5></div>
-    <p>Job Vacencies: 10</p>
-    <p  className='lh-0 p-0 m-0'>Job Roles: </p>
-    <ul><li>Cleaner</li><li>Chef</li><li>Manager</li></ul></div>
-    </div>
-    <hr></hr>
-    <div className='d-flex justify-content-between'>
-        <p>We are a privately held company in Monroe, GA proudly doing business for 6 years.</p>
-        <Link to="https://www.tripadvisor.com/Restaurant_Review-g35122-d21264333-Reviews-Sanford_and_son_barbecue-Monroe_Georgia.html"> <button type='submit' className='mt-0 pb-2 pt-2 bg-secondary text-white'>Apply Now</button></Link>
-    </div>
-</div>))}
-
-
-</div>:<></>}
+        {result && (
+          <div className='totalbody pt-5'>
+            {result.map((item) => (    
+              <div className='d-block indiitem1' key={item._id}>
+                <div className='color-black d-flex'>
+                  <img alt="indiitemimg" className="eeitemnadi" src={item.image}></img>
+                  <div className='d-block indiitemmatter'>
+                    <h3>{item.name}</h3>
+                    <Rating name="read-only" value={5} readOnly/>
+                    <p><img alt="indiitemimg" src={location} className='me-2'/>318 Read way, {item.location}</p>
+                    <p><img alt="indiitemimg" src={phone} className='iimage1'/>+1 654 646 581</p>
+                    <p><img alt="indiitemimg" src={globe} className='iimage1'/>Visit Website</p>
+                  </div>
+                  <div className='indirp'>
+                    <button className='lcv'><CheckCircleIcon/>LS Verified</button>
+                    <div className='mt-2 '><h5>{item.category}</h5></div>
+                    <p>Job Vacencies: 10</p>
+                    <p  className='lh-0 p-0 m-0'>Job Roles: </p>
+                    <ul><li>Cleaner</li><li>Chef</li><li>Manager</li></ul>
+                  </div>
+                </div>
+                <hr></hr>
+                <div className='d-flex justify-content-between'>
+                  <p>We are a privately held company in Monroe, GA proudly doing business for 6 years.</p>
+                  <Link to="https://www.tripadvisor.com/Restaurant_Review-g35122-d21264333-Reviews-Sanford_and_son_barbecue-Monroe_Georgia.html"> 
+                    <button type='submit' className='mt-0 pb-2 pt-2 bg-secondary text-white'>Apply Now</button>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {!result && searchError && (
+          <></>
+        )}
 
 <Body></Body>
         <div className='demot'>

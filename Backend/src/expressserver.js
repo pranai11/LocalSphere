@@ -1,29 +1,16 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient, ObjectId, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-require('dotenv').config();
-
-const uri = process.env.MONGODB_URI;
-
+const uri = "mongodb+srv://pranai3340:Dp_11022004@mydatabase1.ij12wdk.mongodb.net/?retryWrites=true&w=majority&appName=Mydatabase1"
+;
+const { ObjectId } = require('mongodb');
+const { OAuth2Client } = require('google-auth-library');
+const gclient = new OAuth2Client("178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com");
 const app = express();  // Initialize the app variable
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'https://localsphere.netlify.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
-
-// Add this line to log all incoming requests
-app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-  next();
-});
+app.use(cors());
 
 // Create a MongoClient instance
 const client = new MongoClient(uri, {
@@ -56,13 +43,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const connectToDatabase = async () => {
   try {
     await client.connect();
+    await client.db("admin").command({ ping: 1 });
     console.log("Connected to MongoDB");
-    const database = client.db('LocalSphere');
-    const collections = await database.listCollections().toArray();
-    console.log("Available collections:", collections.map(c => c.name));
   } catch (error) {
     console.error("Failed to connect to MongoDB:", error);
-    throw error;
   }
 };
 
@@ -132,10 +116,9 @@ app.get("/business-trends", async (req, res) => {
   try {
     const database = client.db('LocalSphere');
     const result = await database.collection('Trending_Businesses').find({}).toArray();
-    res.json({ status: "success", business_trends: result });
+    res.send({ status: "success", business_trends: result });
   } catch (error) {
-    console.error("Error fetching business trends:", error);
-    res.status(500).json({ status: "error", message: error.message });
+    res.status(500).send({ status: "error", message: error.message });
   }
 });
 
@@ -188,8 +171,9 @@ app.put("/Blogs/:id", async (req, res) => {
     const database = client.db('LocalSphere');
     const { id } = req.params;
     
+    // Ensure id is a valid ObjectId
     if (!ObjectId.isValid(id)) {
-      return res.status(400).json({ status: "error", message: "Invalid blog ID" });
+      return res.status(400).send({ status: "error", message: "Invalid blog ID" });
     }
 
     const result = await database.collection('Blogs').updateOne(
@@ -198,15 +182,17 @@ app.put("/Blogs/:id", async (req, res) => {
     );
 
     if (result.matchedCount === 0) {
-      return res.status(404).json({ status: "error", message: "Blog not found" });
+      return res.status(404).send({ status: "error", message: "Blog not found" });
     }
 
-    res.json({ status: "success", message: "Blog updated successfully" });
+    if (result.modifiedCount === 1) {
+      res.send({ status: "success", message: "Blog updated successfully" });
+    } else {
+      res.send({ status: "success", message: "No changes made to the blog" });
+    }
   } catch (error) {
     console.error("Error updating blog:", error);
-    console.error("Request body:", req.body);
-    console.error("Request params:", req.params);
-    res.status(500).json({ status: "error", message: "Internal server error", error: error.message });
+    res.status(500).send({ status: "error", message: "Internal server error", error: error.message });
   }
 });
 app.get("/search-items-category", async (req, res) => {
@@ -290,13 +276,34 @@ app.post("/Contact_us", async (req, res) => {
   }
 });
 
-// Start the server
-const PORT = process.env.PORT || 8008;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT}`);
+app.get("/search-items", async (req, res) => {
+  try {
+    const database = client.db('LocalSphere');
+    const { category, location } = req.query;
+    let query = {};
+
+    if (category) {
+      query.category = { $regex: category, $options: 'i' };
+    }
+    if (location) {
+      query.location = { $regex: location, $options: 'i' };
+    }
+
+    const result = await database.collection('search_items')
+      .find(query)
+      .toArray();
+
+    if (result.length > 0) {
+      res.send({ status: "success", items: result });
+    } else {
+      res.send({ status: "error", message: "No items found" });
+    }
+  } catch (error) {
+    res.status(500).send({ status: "error", message: error.message });
+  }
 });
 
-app.use((req, res, next) => {
-  console.log(`Received request: ${req.method} ${req.path}`);
-  next();
+// Start the server
+app.listen(8008, () => {
+  console.log(`Server is running on port ${8008}`);
 });
