@@ -9,7 +9,7 @@ import Body from './Body';
 import { LocationCity, Search } from '@mui/icons-material';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import location from "./images/location.png"
+import locationimg from "./images/location.png"
 import phone from "./images/phone.png"
 import globe from "./images/globe2.png"
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -182,11 +182,11 @@ const Homepage = () => {
             {result.map((item) => (    
               <div className='d-block indiitem1' key={item._id}>
                 <div className='color-black d-flex'>
-                  <img alt="indiitemimg" className="eeitemnadi" src={item.image}></img>
+                  <img alt="indiitemimg" className="eeitemnadi" src={item.images}></img>
                   <div className='d-block indiitemmatter'>
                     <h3>{item.name}</h3>
                     <Rating name="read-only" value={5} readOnly/>
-                    <p><img alt="indiitemimg" src={location} className='me-2'/>318 Read way, {item.location}</p>
+                    <p><img alt="indiitemimg" src={locationimg} className='me-2'/>318 Read way, {item.location}</p>
                     <p><img alt="indiitemimg" src={phone} className='iimage1'/>+1 654 646 581</p>
                     <p><img alt="indiitemimg" src={globe} className='iimage1'/>Visit Website</p>
                   </div>

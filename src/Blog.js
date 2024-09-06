@@ -164,11 +164,19 @@ const Blog = () => {
                 </button>
                 <Link to="https://pixabay.com" className='text-white text-decoration-none'><button ><FaFile/>File </button></Link>
               </div>
-              <div className="blogelements text-black">
+              <div className="blogelements text-black" onClick={() => toast.info("Please upgrade to use this feature.", {
+                  position: "top-right",
+                  autoClose: 3000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                })}>
                 <button>Divider</button>
                 <button>Button</button>
-                <button><FaTable /> Table</button>
-                <button>Expandable List</button>
+                <button>Table</button>
+                <button>List</button>
                 <button>Poll</button>
               </div>
             </div>
