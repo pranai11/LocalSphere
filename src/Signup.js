@@ -17,17 +17,30 @@ const Signup = () => {
   useEffect(() => {
     const initializeGoogleSignIn = () => {
       if (window.google && window.google.accounts && window.google.accounts.id) {
-        window.google.accounts.id.initialize({
-          client_id: "178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com",
-          callback: handleGoogleSignIn,
-          auto_select: false,
-        });
-        window.google.accounts.id.renderButton(
-          document.getElementById("googleSignInButton"),
-          { theme: "outline", size: "large", text: "signup_with" }
-        );
+        console.log("Google Sign-In API loaded successfully");
+        try {
+          window.google.accounts.id.initialize({
+            client_id: "178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com",
+            callback: handleGoogleSignIn,
+            auto_select: false,
+          });
+          console.log("Google Sign-In initialized");
+          
+          const button = document.getElementById("googleSignInButton");
+          if (button) {
+            window.google.accounts.id.renderButton(
+              button,
+              { theme: "outline", size: "large", text: "signup_with" }
+            );
+            console.log("Google Sign-In button rendered");
+          } else {
+            console.error("Google Sign-In button element not found");
+          }
+        } catch (error) {
+          console.error("Error initializing Google Sign-In:", error);
+        }
       } else {
-        console.error("Google Sign-In API not loaded");
+        console.error("Google Sign-In API not loaded, retrying...");
         setTimeout(initializeGoogleSignIn, 100); // Retry after 100ms
       }
     };

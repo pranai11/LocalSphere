@@ -3,30 +3,30 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import './css/style.css';
-import business1 from "./images/business1.jpg"
-import electronics from "./images/electronics.jpeg"
-import mengym from "./images/mengym.jpg"
-import energy from "./images/energy.webp"
-import insurance from "./images/insurance.jpg"
-import petstore from "./images/petstore.jpg"
-import telehealth from "./images/telehealth.jpg"
-import ecommerce from "./images/ecommerce.jpg"
-import real from "./images/real.jpg"
-import bank from "./images/bank.png"
-import tra from "./images/tra.png"
-import car from "./images/car.png"
-import diamond from "./images/diamond.png"
-import cloth from "./images/cloth.png"
-import elec from "./images/elec.png"
-import gym from "./images/gym.png"
-import power from "./images/power.png"
-import furnit from "./images/furnit.png"
-import pet from "./images/pet.png"
-import home from "./images/home.png"
-import umbrella from "./images/umbrella.png"
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+// import business1 from "./images/business1.jpg"
+// import electronics from "./images/electronics.jpeg"
+// import mengym from "./images/mengym.jpg"
+// import energy from "./images/energy.webp"
+// import insurance from "./images/insurance.jpg"
+// import petstore from "./images/petstore.jpg"
+// import telehealth from "./images/telehealth.jpg"
+// import ecommerce from "./images/ecommerce.jpg"
+// import real from "./images/real.jpg"
+// import bank from "./images/bank.png"
+// import tra from "./images/tra.png"
+// import car from "./images/car.png"
+// import diamond from "./images/diamond.png"
+// import cloth from "./images/cloth.png"
+// import elec from "./images/elec.png"
+// import gym from "./images/gym.png"
+// import power from "./images/power.png"
+// import furnit from "./images/furnit.png"
+// import pet from "./images/pet.png"
+// import home from "./images/home.png"
+// import umbrella from "./images/umbrella.png"
+// import Container from 'react-bootstrap/Container';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -79,7 +79,15 @@ return (
       <div>
               <div className='col d-flex shadow'>
               <img className='image text-white' src={itemcat.images}/>
-              <p className='matter'><Link to="/Indiitem" className='text-decoration-none text-light'>{itemcat.name}</Link></p>
+              <p className='matter'>
+                <Link 
+                  to="/Indiitem" 
+                  className='text-decoration-none text-light'
+                  onClick={() => window.scrollTo(0, 0)}
+                >
+                  {itemcat.name}
+                </Link>
+              </p>
               </div>
 </div>
 ))}
@@ -104,7 +112,17 @@ return (
 <Card.Text>
 {itemtr.Matter}
 </Card.Text>
-<Button className='button' variant="primary">Visit</Button>
+<Button 
+  className='button' 
+  variant="primary" 
+  as={Link} 
+  to="/Indiitem"
+  onClick={() => {
+    window.scrollTo(0, 0);
+  }}
+>
+  Visit
+</Button>
 </Card.Body>
 </Card>
 

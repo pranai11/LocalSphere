@@ -28,13 +28,14 @@ import trend15 from "./images/trend15.webp"
 import EditIcon from '@mui/icons-material/Edit';
 import DownloadIcon from '@mui/icons-material/Download';
 import ShareIcon from '@mui/icons-material/Share';
-import {  EmailIcon, EmailShareButton,
-    FacebookIcon,
-    FacebookShareButton, WhatsappIcon, WhatsappShareButton} from "react-share";
+import { EmailShareButton, FacebookShareButton, WhatsappShareButton, TwitterShareButton } from "react-share";
+import { EmailIcon, FacebookIcon, WhatsappIcon, TwitterIcon } from "react-share";
 import Header from './Header';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { saveAs } from 'file-saver';
+import './css/ShareModal.css';
 
 function Contenttext() {
 
@@ -60,6 +61,21 @@ function Contenttext() {
 
     const handleEdit = (blog) => {
       navigate('/Blog', { state: { blog } });
+    };
+
+    const handleDownload = (blog) => {
+      const blogContent = `
+Title: ${blog.h3}
+Author: ${blog.author}
+Date: ${blog.date}
+Category: ${blog.h1} | ${blog.h2}
+
+Content:
+${blog.matter}
+      `;
+
+      const blob = new Blob([blogContent], { type: 'text/plain;charset=utf-8' });
+      saveAs(blob, `${blog.h3.replace(/\s+/g, '_')}.txt`);
     };
 
     useEffect(()=>{
@@ -108,19 +124,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header  closeButton>
-  <Button>Share via</Button>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/1`} title="Parcel delivery scams to watch out for all year round" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -131,19 +135,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <Button>Share via</Button>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/2`} title="Romance scams: Spot the signs" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -154,19 +146,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/3`} title="Holiday hoaxes: How scammers take advantage of the holiday season" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -177,19 +157,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/4`} title="Gift card scams: What to look out for and how to avoid them" />
                     </div>
                     </Col>
                 </Row>
@@ -212,20 +180,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
-                   
+                    <ShareButton url={`https://yourdomain.com/blog/5`} title="4 tips for sharing perfect product review photos" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -236,19 +191,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/6`} title="A critical analysis of the five-star experience" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -259,19 +202,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/7`} title="The case for leaving 2, 3, and 4-star reviews" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -282,19 +213,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/8`} title="How companies use your reviews to get better" />
                     </div>
                     </Col>
                 </Row>
@@ -319,19 +238,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/9`} title="Personal liability insurance: Coverage when you're held responsible" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -342,19 +249,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/10`} title="Understanding auto insurance: Comprehensive, full coverage, and liability explained" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -365,19 +260,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/11`} title="Disability insurance: Short-term, long-term, and everything in between" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -388,19 +271,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/12`} title="Life insurance: Understanding term, whole, and supplemental policies" />
                     </div>
                     </Col>
                 </Row>
@@ -422,19 +293,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/13`} title="Local Sphere Pride & Allies: Our recommended resources" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -445,19 +304,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/14`} title="Local Sphere is sponsoring Pride Copenhagen 2022 🏳️‍🌈🎉" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -468,19 +315,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>1
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/15`} title="Meet the pets of Local Sphere: 2021 Edition" />
                     </div>
                     </Col>
                     <Col className='trendscol'>
@@ -491,19 +326,7 @@ function Contenttext() {
                     <div className='d-flex'>
                     <Link to="/Blog"><EditIcon className='me-3 mt-1 text-dark'/></Link>
                     <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
+                    <ShareButton url={`https://yourdomain.com/blog/16`} title="Introducing Local Sphere Pride & Allies" />
                     </div>
                     </Col>
                 </Row>
@@ -535,21 +358,11 @@ function Contenttext() {
               <button onClick={() => handleEdit(bitem)} className="btn p-0 m-0">
                 <EditIcon className='me-3 mt-1 text-dark'/>
               </button>
-                    <DownloadIcon className='me-3 mt-1 text-dark'/>
-                    <button className="btn p-0 m-0" variant='white' onClick={handleModalShow}> <ShareIcon className='me-3 mt-1'/></button>
-<Modal show={show} onHide={handleModalClose}>
-  <Modal.Header closeButton>
-    <h2 className='text-black'>Share via</h2>
-  </Modal.Header>
-  <Modal.Body>
-<div className='d-flex'>
-<EmailShareButton url='https://gmail.com'><EmailIcon/></EmailShareButton>
-  <FacebookShareButton url='https://facebook.com'><FacebookIcon/></FacebookShareButton>                                
-  <WhatsappShareButton url='https://whatsapp.com'><WhatsappIcon/></WhatsappShareButton>
-</div>
-  </Modal.Body>
-  </Modal>
-  </div>
+              <button onClick={() => handleDownload(bitem)} className="btn p-0 m-0">
+                <DownloadIcon className='me-3 mt-1 text-dark'/>
+              </button>
+              <ShareButton title={bitem.h3} />
+            </div>
           </div>
         </div>
       ))}
@@ -576,5 +389,40 @@ function Contenttext() {
     </div>
   )
 }
+
+function ShareButton({ url, title }) {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  return (
+    <>
+      <button onClick={handleShow} className="btn p-0 m-0 share-icon-button">
+        <ShareIcon className='text-dark' />
+      </button>
+
+      <Modal show={show} onHide={handleClose} centered className="share-modal">
+        <Modal.Header closeButton>
+          <Modal.Title>Share this article</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="share-buttons">
+            <WhatsappShareButton title={title}>
+              <WhatsappIcon size={40} round />
+            </WhatsappShareButton>
+            <TwitterShareButton title={title}>
+              <TwitterIcon size={40} round />
+            </TwitterShareButton>
+            <FacebookShareButton quote={title}>
+              <FacebookIcon size={40} round />
+            </FacebookShareButton>
+          </div>
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+}
+
 
 export default Contenttext;

@@ -1,0 +1,44 @@
+.share-modal .modal-content {
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .share-modal .modal-header {
+    border-bottom: none;
+    padding: 20px 20px 0;
+  }
+  
+  .share-modal .modal-title {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .share-modal .modal-body {
+    padding: 20px;
+  }
+  
+  .share-buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .share-buttons button {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .share-buttons button:hover {
+    transform: scale(1.1);
+  }
+  
+  .share-icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+  }
+
+  .share-icon-button:hover {
+    opacity: 0.7;
+  }
