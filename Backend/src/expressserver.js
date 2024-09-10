@@ -10,11 +10,24 @@ const { ObjectId } = require('mongodb');
 const { OAuth2Client } = require('google-auth-library');
 const gclient = new OAuth2Client("178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com");
 const app = express();  // Initialize the app variable
+
 app.use(cors({
-  origin: "https://localsphere.netlify.app" || "http://localhost:3000" || "https://localsphere.onrender.com",
+  origin: ["https://localsphere.netlify.app", "http://localhost:3000", "https://localsphere.onrender.com"],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
+app.use((req, res, next) => {
+  const allowedOrigins = ['https://localsphere.netlify.app', 'http://localhost:3000', 'https://localsphere.onrender.com'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 
 // Create a MongoClient instance
 const client = new MongoClient(uri, {
