@@ -197,6 +197,8 @@ app.post("/Blogs", async (req, res) => {
 // New route for updating blogs
 app.put("/Blogs/:id", async (req, res) => {
   try {
+    console.log('Updating blog:', req.params.id);
+    console.log('Request body:', req.body);
     const database = client.db('LocalSphere');
     const { id } = req.params;
     
@@ -221,7 +223,7 @@ app.put("/Blogs/:id", async (req, res) => {
     }
   } catch (error) {
     console.error("Error updating blog:", error);
-    res.status(500).send({ status: "error", message: "Internal server error", error: error.message });
+    res.status(500).json({ error: error.message, stack: error.stack });
   }
 });
 app.get("/search-items-category", async (req, res) => {
