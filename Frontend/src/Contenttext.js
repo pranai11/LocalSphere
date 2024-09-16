@@ -47,7 +47,7 @@ function Contenttext() {
     const blogs = async ()=>{
 
       const bdata = new FormData()
-      const bresponse = await axios.get("https://localsphere.onrender.com//Blogs",bdata)
+      const bresponse = await axios.get("https://localsphere.onrender.com/Blogs",bdata)
       if(bresponse){
         console.log(bresponse.data)
         if(bresponse.data.status==="success"){

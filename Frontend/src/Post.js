@@ -41,7 +41,7 @@ function Post() {
     data.append("additional_info",addi)
 
     try {
-      const response = await axios.post("https://localsphere.onrender.com//register-business", data, {
+      const response = await axios.post("https://localsphere.onrender.com/register-business", data, {
         headers: {
           'Content-Type': 'application/json'}
         });

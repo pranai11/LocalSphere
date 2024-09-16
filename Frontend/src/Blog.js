@@ -50,9 +50,9 @@ const Blog = () => {
     try {
       let response;
       if (isEditing) {
-        response = await axios.put(`https://localsphere.onrender.com//Blogs/${blogId}`, data);
+        response = await axios.put(`https://localsphere.onrender.com/Blogs/${blogId}`, data);
       } else {
-        response = await axios.post("https://localsphere.onrender.com//Blogs", data);
+        response = await axios.post("https://localsphere.onrender.com/Blogs", data);
       }
 
       if (response.data.status === "success") {

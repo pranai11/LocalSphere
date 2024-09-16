@@ -32,7 +32,7 @@ const Homepage = () => {
     }
 
     try {
-      let url = "https://localsphere.onrender.com//search-items";
+      let url = "https://localsphere.onrender.com/search-items";
       if (category && location) {
         url += `?category=${category}&location=${location}`;
       } else if (category) {
@@ -56,7 +56,7 @@ const Homepage = () => {
   const testimonal = async () => {
 
     const testidata = new FormData()
-    const testiresponse = await axios.get("https://localsphere.onrender.com//Reviews", testidata)
+    const testiresponse = await axios.get("https://localsphere.onrender.com/Reviews", testidata)
     if (testiresponse) {
       console.log(testiresponse.data)
       if (testiresponse.data.status === "success") {
@@ -70,7 +70,7 @@ const Homepage = () => {
     Setresult(null)
     data.append("keyword", keyword)
     if (keyword) {
-      const response = await axios.get("https://localsphere.onrender.com//search-items-category/?keyword=" + keyword, data)
+      const response = await axios.get("https://localsphere.onrender.com/search-items-category/?keyword=" + keyword, data)
       if (response.data.status === "success") {
         Setresult(response.data.items)
       }
@@ -82,7 +82,7 @@ const Homepage = () => {
     Setresult(null)
     data.append("keyword", keyword)
     if (keyword) {
-      const response = await axios.get("https://localsphere.onrender.com//search-items-loc/?keyword=" + keyword, data)
+      const response = await axios.get("https://localsphere.onrender.com/search-items-loc/?keyword=" + keyword, data)
       if (response.data.status === "success") {
         Setresult(response.data.items)
       }
