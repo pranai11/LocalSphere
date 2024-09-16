@@ -21,7 +21,7 @@ const Login = () => {
     data.append("name",name)
 
 
-    const response=await axios.get("http://localhost:8008/Login?name="+name+"&email="+email+"&password="+password,data)
+    const response=await axios.get("https://localsphere.onrender.com//Login?name="+name+"&email="+email+"&password="+password,data)
     
     if(response){
       if(response.data.status==="success"){

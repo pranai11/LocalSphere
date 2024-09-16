@@ -31,7 +31,7 @@ const Body3 = () => {
 
 
 
-    const response=await axios.get("http://localhost:8008/Blogs?images="+bimglink+"&h1="+categ+"&h2="+scateg+"&h3="+btitle+"&author="+bath+"&date="+bdate+"&matter="+bmat,data)
+    const response=await axios.get("https://localsphere.onrender.com//Blogs?images="+bimglink+"&h1="+categ+"&h2="+scateg+"&h3="+btitle+"&author="+bath+"&date="+bdate+"&matter="+bmat,data)
     
     if(response){
       if(response.data.status==="success"){

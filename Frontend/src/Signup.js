@@ -56,7 +56,7 @@ const Signup = () => {
 
 
 
-    const response=await axios.get("http://localhost:8008/Signup?name="+name+"&email="+email+"&password="+password,data)
+    const response=await axios.get("https://localsphere.onrender.com//Signup?name="+name+"&email="+email+"&password="+password,data)
     
     if(response){
       if(response.data.status==="success"){
@@ -73,7 +73,7 @@ const Signup = () => {
   const handleGoogleSignIn = async (response) => {
     console.log("Google Sign-In response:", response);
     try {
-      const res = await axios.post("http://localhost:8008/google-signin", {
+      const res = await axios.post("https://localsphere.onrender.com//google-signin", {
         token: response.credential
       });
       console.log("Server response:", res.data);

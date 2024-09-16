@@ -37,7 +37,7 @@ function Body() {
   const bts = async ()=>{
 
     const data = new FormData()
-    const response = await axios.get("http://localhost:8008/business-trends",data)
+    const response = await axios.get("https://localsphere.onrender.com//business-trends",data)
     if(response){
       console.log(response.data)
       if(response.data.status==="success"){
@@ -49,7 +49,7 @@ function Body() {
   const cat = async ()=>{
 
     const catdata = new FormData()
-    const catresponse = await axios.get("http://localhost:8008/categories",catdata)
+    const catresponse = await axios.get("https://localsphere.onrender.com//categories",catdata)
     if(catresponse){
       console.log(catresponse.data)
       if(catresponse.data.status==="success"){

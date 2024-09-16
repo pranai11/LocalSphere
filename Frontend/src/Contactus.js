@@ -32,7 +32,7 @@ const Contactus = () => {
     data.append("user_id",uid)
 
     try {
-      const response = await axios.post("http://localhost:8008/Contact_us", data, {
+      const response = await axios.post("https://localsphere.onrender.com//Contact_us", data, {
         headers: {
           'Content-Type': 'application/json'}
         });
