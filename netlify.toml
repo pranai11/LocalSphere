@@ -1,7 +1,0 @@
-[build]
-  command = "CI= npm run build"
-  publish = "build"
-
-[context.production.environment]
-  NODE_ENV = "production"
-  REACT_APP_API_URL = "https://localsphere.onrender.com"
