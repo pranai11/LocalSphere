@@ -36,18 +36,19 @@ const Blog = () => {
     }
   }, [location]);
 
-  const handleSubmit = async () => {
-    const data = {
-      images: bimglink,
-      h1: categ,
-      h2: scateg,
-      h3: btitle,
-      author: bath,
-      date: bdate,
-      matter: bmat,
-    };
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
+      const data = {
+        images: bimglink,
+        h1: categ,
+        h2: scateg,
+        h3: btitle,
+        author: bath,
+        date: bdate,
+        matter: bmat,
+      };
+
       let response;
       if (isEditing) {
         response = await axios.put(`https://localsphere.onrender.com/Blogs/${blogId}`, data);
@@ -64,18 +65,10 @@ const Blog = () => {
         toast.error(response.data.message || "Error. Try again.");
       }
     } catch (error) {
-      console.error("Error submitting blog:", error);
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        toast.error(`Error: ${error.response.data.message || "An unexpected error occurred"}`);
-      } else if (error.request) {
-        // The request was made but no response was received
-        toast.error("No response received from server. Please try again.");
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        toast.error("Error setting up the request. Please try again.");
-      }
+      console.error('Error details:', error.response?.data);
+      console.error('Error status:', error.response?.status);
+      console.error('Error headers:', error.response?.headers);
+      // Handle the error (e.g., show an error message to the user)
     }
   };
 
