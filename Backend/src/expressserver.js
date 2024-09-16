@@ -54,11 +54,11 @@ async function verifyGoogleToken(token) {
 }
 
 
-// // Middleware to parse JSON data
-// app.use(bodyParser.json());
+// Middleware to parse JSON data
+app.use(bodyParser.json());
 
-// // Middleware to parse urlencoded data (from forms)
-// app.use(bodyParser.urlencoded({ extended: true }));
+// Middleware to parse urlencoded data (from forms)
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // Middleware to connect MongoDB
