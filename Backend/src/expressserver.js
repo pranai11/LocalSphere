@@ -54,25 +54,32 @@ async function verifyGoogleToken(token) {
 }
 
 
-// Middleware to parse JSON data
-app.use(bodyParser.json());
+// // Middleware to parse JSON data
+// app.use(bodyParser.json());
 
-// Middleware to parse urlencoded data (from forms)
-app.use(bodyParser.urlencoded({ extended: true }));
+// // Middleware to parse urlencoded data (from forms)
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // Middleware to connect MongoDB
 const connectToDatabase = async () => {
   try {
     await client.connect();
-    await client.db("admin").command({ ping: 1 });
-    console.log("Connected to MongoDB");
+    console.log("Connected successfully to MongoDB");
+    db = client.db("LocalSphere");
+    usersCollection = db.collection("Users");
   } catch (error) {
     console.error("Failed to connect to MongoDB:", error);
+    process.exit(1);
   }
 };
 
 connectToDatabase();
+
+
+app.get('/',(req,res)=>{
+  res.send("API IS WORKING");
+})
 
 // Define routes
 app.get("/Login", async (req, res) => {
