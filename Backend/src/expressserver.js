@@ -1,32 +1,36 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const path = require('path');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-const uri = "mongodb+srv://pranai3340:Dp_11022004@mydatabase1.ij12wdk.mongodb.net/?retryWrites=true&w=majority&appName=Mydatabase1"
-;
+const uri = process.env.MONGO_URI;
 const { ObjectId } = require('mongodb');
 const { OAuth2Client } = require('google-auth-library');
 const gclient = new OAuth2Client("178915392982-etho3k3irum2lfrjs563rsebdcao5elp.apps.googleusercontent.com");
 const app = express();  // Initialize the app variable
 
-app.use(cors({
-  origin: ["https://localsphere.netlify.app", "http://localhost:3000", "https://localsphere.onrender.com"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-}));
 
-app.use((req, res, next) => {
-  const allowedOrigins = ['https://localsphere.netlify.app', 'http://localhost:3000', 'https://localsphere.onrender.com'];
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
+app.use(cors("*"));
+
+
+// app.use(cors({
+//   origin: ["https://localsphere.netlify.app", "http://localhost:3000", "https://localsphere.onrender.com"],
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+// }));
+
+// app.use((req, res, next) => {
+//   const allowedOrigins = ['https://localsphere.netlify.app', 'http://localhost:3000', 'https://localsphere.onrender.com'];
+//   const origin = req.headers.origin;
+//   if (allowedOrigins.includes(origin)) {
+//     res.header('Access-Control-Allow-Origin', origin);
+//   }
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//   next();
+// });
 
 
 // Create a MongoClient instance
@@ -320,7 +324,8 @@ app.get("/search-items", async (req, res) => {
   }
 });
 
+const PORT = process.env.PORT || 8008;
 // Start the server
-app.listen(8008, () => {
-  console.log(`Server is running on port ${8008}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

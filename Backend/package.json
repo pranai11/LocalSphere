@@ -4,7 +4,7 @@
   "main": "src/expressserver.js",
   "scripts": {
     "start": "node src/expressserver.js",
-    "build": "echo 'Nothing to build'"
+    "dev": "nodemon src/expressserver.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -13,5 +13,11 @@
     "expressjs": "^1.0.1",
     "mongodb": "^6.7.0",
     "react-scripts": "^5.0.0"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "engines": {
+  "node": ">=16.9.0"
+}
 }
