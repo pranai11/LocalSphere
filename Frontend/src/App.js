@@ -11,7 +11,35 @@ import Blog from './Blog';
 import Post from './Post';
 import Contactus from './Contactus';
 import Body3 from './Body3';
+import { useEffect } from 'react';
 function App() {
+
+  useEffect(() => {
+    // Inject the first script for embeddedChatbotConfig
+    const configScript = document.createElement("script");
+    configScript.innerHTML = `
+        window.embeddedChatbotConfig = {
+            chatbotId: "UbB1RUQdYQKzlct-k40hT",
+            domain: "www.chatbase.co"
+        };
+    `;
+    document.body.appendChild(configScript);
+
+    // Inject the second script for embedding the chatbot
+    const embedScript = document.createElement("script");
+    embedScript.src = "https://www.chatbase.co/embed.min.js";
+    embedScript.setAttribute("chatbotId", "UbB1RUQdYQKzlct-k40hT");
+    embedScript.setAttribute("domain", "www.chatbase.co");
+    embedScript.defer = true;
+    document.body.appendChild(embedScript);
+    
+    // Cleanup script elements when the component is unmounted
+    return () => {
+        document.body.removeChild(configScript);
+        document.body.removeChild(embedScript);
+    };
+}, []);
+
   return (
     <div>
       

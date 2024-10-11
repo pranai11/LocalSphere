@@ -20,6 +20,7 @@ const Blog = () => {
   const [bdate, setBdate] = useState('');
   const [bmat, setBmat] = useState('');
   const [bimglink, setBimglink] = useState('');
+  const [isAddMenuOpen, setIsAddMenuOpen] = useState(false); // State for toggle
 
   useEffect(() => {
     if (location.state && location.state.blog) {
@@ -104,7 +105,15 @@ const Blog = () => {
         <ToastContainer />
         <div className="blogbody text-black">
           <aside className="blogsidebar">
-            <div className="blogadd">
+            {/* Toggle button for mobile view */}
+            <button 
+              onClick={() => setIsAddMenuOpen(!isAddMenuOpen)} 
+              className="menu-toggle d-md-none" // Hide on medium and larger screens
+            >
+              {isAddMenuOpen ? 'Hide Add Options' : 'Show Add Options'}
+            </button>
+            {/* Always show the add menu on larger devices */}
+            <div className={`blogadd ${isAddMenuOpen ? '' : 'd-none d-md-block'}`}>
               <h3>Add</h3>
               <div className="blogmedia text-black">
                 {/* Image Upload */}
@@ -155,7 +164,9 @@ const Blog = () => {
                 <button onClick={() => gifInputRef.current.click()}>
                   <FaImage /> GIF
                 </button>
-                <Link to="https://pixabay.com" className='text-white text-decoration-none'><button ><FaFile/>File </button></Link>
+                <Link to="https://pixabay.com" className='text-white text-decoration-none'>
+                  <button><FaFile /> File </button>
+                </Link>
               </div>
               <div className="blogelements text-black" onClick={() => toast.info("Please upgrade to use this feature.", {
                   position: "top-right",

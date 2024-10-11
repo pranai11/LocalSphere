@@ -131,3 +131,13 @@ background-color: black;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .local {
+        padding-bottom: 50px; /* Adjust padding */
+    }
+    .container-fluid {
+        width: 100%; /* Full width on smaller screens */
+    }
+}

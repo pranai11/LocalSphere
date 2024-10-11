@@ -136,3 +136,13 @@ width: auto;
 .custom-modal .react-share__ShareButton:hover svg {
   transform: scale(1.2);
 }
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .body {
+        margin: 0 10px; /* Adjust margins */
+    }
+    .col {
+        width: 100%; /* Full width on smaller screens */
+    }
+}

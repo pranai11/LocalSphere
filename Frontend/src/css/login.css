@@ -160,3 +160,10 @@ button:hover {
   color: #ffffff !important;
   text-decoration: none !important;
 }
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .wrapper {
+        width: 90%; /* Adjust width */
+    }
+}

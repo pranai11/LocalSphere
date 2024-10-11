@@ -36,3 +36,13 @@
     padding: 2px;
     margin-top: 40px;
 }
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .indiitem1 {
+        margin: 20px; /* Adjust margins */
+    }
+    .eeitemnadi {
+        width: 100%; /* Full width on smaller screens */
+    }
+}

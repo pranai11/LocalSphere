@@ -42,3 +42,10 @@
   .share-icon-button:hover {
     opacity: 0.7;
   }
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .share-modal .modal-content {
+        width: 90%; /* Adjust modal width */
+    }
+}

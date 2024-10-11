@@ -21,3 +21,14 @@
 Post label{
     margin-top: 5px !important;
 }
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .postleft, .postright {
+        width: 100%; /* Stack columns on smaller screens */
+    }
+    .postbutton {
+        margin-left: 0; /* Center button */
+        width: 100%; /* Full width */
+    }
+}

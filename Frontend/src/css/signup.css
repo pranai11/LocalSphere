@@ -147,3 +147,10 @@ button:hover {
     margin-top: 10px;
     color: white;
 }
+
+/* Add media queries for responsiveness */
+@media (max-width: 768px) {
+    .wrapper {
+        width: 90%; /* Adjust width */
+    }
+}
